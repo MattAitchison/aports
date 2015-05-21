@@ -1,0 +1,48 @@
+http://www.openwall.com/lists/musl/2015/01/06/3
+
+Date: Tue, 06 Jan 2015 15:31:43 +0100
+From: Tomasz Sterna <tomek@...oka.com>
+To: musl@...ts.openwall.com
+Subject: musl-llvm-clang-libc++
+
+Hello.
+
+You might be interested to know, that I managed to build a
+musl + LLVM (clang, libc++) based, self hosted system.
+
+The hardest part was to scrub libgcc and libstdc++ dependencies.
+Using instructions from Wiki[1] and hints from this list[2] and LLVM
+bugtracker[3] I finally managed to get a self-hosting system able to
+rebuild itself clean without any GCC help.
+
+It requires a bit arm-twisting to LLVM compiler and libs, but it looks
+like it works just fine. The musl/libc++/clang++ env is able to build
+working libc++ and clang++, which I consider GoodEnough(TM) test case.
+
+If you want to toy around with it you can install it directly from repo.
+
+# mkdir /mnt/test	# I usually mount a btrfs subvolume here
+# apk.static --repository http://ftp.d-os.eu/latest/core --update-cache --allow-untrusted --root /mnt/test --initdb add dos-base dos-sdk libcxx-dev
+
+It is based on great work of Alpine Linux.
+Still heavily work-in-progress and very rough on edges, but I think it
+may be very useful for people trying to get free of GNU libc, libstdc++
+and GCC bits, so I decided to share early.
+Also it is good to have some more eyes on as there is a lot of guesswork
+there.
+
+The apk sources with required patches and some quick notes are on
+GitHub: https://github.com/D-os/aports/tree/master/core
+
+
+[1] http://wiki.musl-libc.org/wiki/BuildingLLVM
+[2] http://www.openwall.com/lists/musl/2014/04/22/2
+[3] http://llvm.org/bugs/show_bug.cgi?id=7276
+
+-- 
+Tomasz Sterna                           :(){ :|:&};:
+Instant Messaging Consultant   Open Source Developer 
+http://abadcafe.pl/      http://xiaoka.com/portfolio
+
+
+[ CONTENT OF TYPE application/pgp-signature SKIPPED ]
